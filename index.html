@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trade Idea Generator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #0f0f0f;
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      color: gold;
+    }
+
+    select, input, button, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      background: gold;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    textarea {
+      height: 340px;
+      font-size: 14px;
+      resize: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>💡 Gold Trade Idea</h2>
+
+<select id="direction">
+  <option value="buy">BUY</option>
+  <option value="sell">SELL</option>
+</select>
+
+<input type="number" id="entry" placeholder="Entry price (e.g. 5005)">
+
+<button onclick="generateIdea()">Generate Trade Idea</button>
+
+<textarea id="output" readonly></textarea>
+
+<script>
+function generateIdea() {
+  const entry = parseFloat(document.getElementById("entry").value);
+  const direction = document.getElementById("direction").value;
+
+  if (!entry) return;
+
+  let entryText, sl, tp1, tp2, tp3, tp4;
+  let dirEmoji = direction === "buy" ? "📈" : "📉";
+
+  if (direction === "buy") {
+    entryText = (entry - 1) + "–" + entry;
+    sl  = entry - 7;
+    tp1 = entry + 4;
+    tp2 = entry + 8;
+    tp3 = entry + 12;
+    tp4 = entry + 16;
+  } else {
+    entryText = entry + "–" + (entry + 1);
+    sl  = entry + 7;
+    tp1 = entry - 4;
+    tp2 = entry - 8;
+    tp3 = entry - 12;
+    tp4 = entry - 16;
+  }
+
+  document.getElementById("output").value =
+`💡 TRADE IDEA ⤵️
+
+${dirEmoji} ${direction.toUpperCase()} XAUUSD (GOLD)
+
+📍 Entry: ${entryText}
+
+🛑 Stop Loss: ${sl}
+
+🎯 TP1: ${tp1}
+🎯 TP2: ${tp2}
+🎯 TP3: ${tp3}
+🎯 TP4: ${tp4}
+🎯 TP5: Open
+
+For educational purposes only. This is not financial advice.
+Trading involves risks, only trade with funds you can afford to lose.
+
+📌 Always follow proper risk management.`;
+}
+</script>
+
+</body>
+</html>
