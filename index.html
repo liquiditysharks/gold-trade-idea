@@ -59,9 +59,11 @@
 
 <input type="number" id="entry" placeholder="Entry price (e.g. 5005)">
 
+<!-- OPTIONAL MANUAL STOP LOSS -->
+<input type="number" id="manualSL" placeholder="Optional Stop Loss (leave empty for auto)">
+
 <button onclick="generateIdea()">Generate Trade Idea</button>
 
-<!-- COPY BUTTON -->
 <button class="copy" onclick="copyTradeIdea()">📋 Copy Trade Idea</button>
 
 <textarea id="output" readonly></textarea>
@@ -70,6 +72,7 @@
 function generateIdea() {
   const entry = parseFloat(document.getElementById("entry").value);
   const direction = document.getElementById("direction").value;
+  const manualSL = parseFloat(document.getElementById("manualSL").value);
 
   if (!entry) return;
 
@@ -90,6 +93,11 @@ function generateIdea() {
     tp2 = entry - 8;
     tp3 = entry - 12;
     tp4 = entry - 16;
+  }
+
+  // Overwrite SL if manual SL is provided
+  if (!isNaN(manualSL)) {
+    sl = manualSL;
   }
 
   document.getElementById("output").value =
@@ -120,8 +128,8 @@ function copyTradeIdea() {
 
   output.select();
   output.setSelectionRange(0, 99999); // mobile support
-
   document.execCommand("copy");
+
   alert("Trade idea copied ✅");
 }
 </script>
