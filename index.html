@@ -34,6 +34,12 @@
       cursor: pointer;
     }
 
+    button.copy {
+      background: #1f1f1f;
+      color: gold;
+      border: 1px solid gold;
+    }
+
     textarea {
       height: 340px;
       font-size: 14px;
@@ -55,6 +61,9 @@
 
 <button onclick="generateIdea()">Generate Trade Idea</button>
 
+<!-- COPY BUTTON -->
+<button class="copy" onclick="copyTradeIdea()">📋 Copy Trade Idea</button>
+
 <textarea id="output" readonly></textarea>
 
 <script>
@@ -68,14 +77,14 @@ function generateIdea() {
   let dirEmoji = direction === "buy" ? "📈" : "📉";
 
   if (direction === "buy") {
-    entryText = (entry - 1) + "–" + entry;
+    entryText = (entry - 2) + "–" + entry;
     sl  = entry - 7;
     tp1 = entry + 4;
     tp2 = entry + 8;
     tp3 = entry + 12;
     tp4 = entry + 16;
   } else {
-    entryText = entry + "–" + (entry + 1);
+    entryText = entry + "–" + (entry + 2);
     sl  = entry + 7;
     tp1 = entry - 4;
     tp2 = entry - 8;
@@ -102,6 +111,18 @@ For educational purposes only. This is not financial advice.
 Trading involves risks, only trade with funds you can afford to lose.
 
 📌 Always follow proper risk management.`;
+}
+
+function copyTradeIdea() {
+  const output = document.getElementById("output");
+
+  if (!output.value) return;
+
+  output.select();
+  output.setSelectionRange(0, 99999); // mobile support
+
+  document.execCommand("copy");
+  alert("Trade idea copied ✅");
 }
 </script>
 
