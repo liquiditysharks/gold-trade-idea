@@ -59,6 +59,9 @@
 
 <input type="number" id="entry" placeholder="Entry price (e.g. 5005)">
 
+<!-- OPTIONAL ENTRY RANGE PIPS -->
+<input type="number" id="rangePips" placeholder="Optional Entry Range (pips e.g. 20, 30)">
+
 <!-- OPTIONAL MANUAL STOP LOSS -->
 <input type="number" id="manualSL" placeholder="Optional Stop Loss (leave empty for auto)">
 
@@ -73,21 +76,31 @@ function generateIdea() {
   const entry = parseFloat(document.getElementById("entry").value);
   const direction = document.getElementById("direction").value;
   const manualSL = parseFloat(document.getElementById("manualSL").value);
+  const rangePips = parseFloat(document.getElementById("rangePips").value);
 
   if (!entry) return;
 
   let entryText, sl, tp1, tp2, tp3, tp4;
   let dirEmoji = direction === "buy" ? "📈" : "📉";
 
+  // Determine entry range
+  let rangeValue;
+
+  if (!isNaN(rangePips)) {
+    rangeValue = rangePips / 10;
+  } else {
+    rangeValue = 2; // default range
+  }
+
   if (direction === "buy") {
-    entryText = entry + "–" + (entry + 2);
+    entryText = entry + "–" + (entry + rangeValue);
     sl  = entry - 8;
     tp1 = entry + 4;
     tp2 = entry + 8;
     tp3 = entry + 12;
     tp4 = entry + 16;
   } else {
-    entryText = (entry - 2) + "–" + entry;
+    entryText = (entry - rangeValue) + "–" + entry;
     sl  = entry + 8;
     tp1 = entry - 4;
     tp2 = entry - 8;
@@ -127,7 +140,7 @@ function copyTradeIdea() {
   if (!output.value) return;
 
   output.select();
-  output.setSelectionRange(0, 99999); // mobile support
+  output.setSelectionRange(0, 99999);
   document.execCommand("copy");
 
   alert("Trade idea copied ✅");
