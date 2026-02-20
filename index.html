@@ -80,14 +80,14 @@ function generateIdea() {
   let dirEmoji = direction === "buy" ? "📈" : "📉";
 
   if (direction === "buy") {
-    entryText = (entry - 2) + "–" + entry;
+    entryText = entry + "–" + (entry + 2);
     sl  = entry - 8;
     tp1 = entry + 4;
     tp2 = entry + 8;
     tp3 = entry + 12;
     tp4 = entry + 16;
   } else {
-    entryText = entry + "–" + (entry + 2);
+    entryText = (entry - 2) + "–" + entry;
     sl  = entry + 8;
     tp1 = entry - 4;
     tp2 = entry - 8;
