@@ -93,14 +93,14 @@ function generateIdea() {
   }
 
   if (direction === "buy") {
-    entryText = entry + "–" + (entry + rangeValue);
+    entryText = (entry - rangeValue)+ "–" + entry;
     sl  = entry - 7;
     tp1 = entry + 4;
     tp2 = entry + 7;
     tp3 = entry + 10;
     tp4 = entry + 13;
   } else {
-    entryText = (entry - rangeValue) + "–" + entry;
+    entryText = entry + "–" + (entry + rangeValue);
     sl  = entry + 7;
     tp1 = entry - 4;
     tp2 = entry - 7;
