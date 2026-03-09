@@ -89,18 +89,18 @@ function generateIdea() {
   if (!isNaN(rangePips)) {
     rangeValue = rangePips / 10;
   } else {
-    rangeValue = 2; // default range
+    rangeValue = 1; // default range
   }
 
   if (direction === "buy") {
-    entryText = (entry - rangeValue)+ "–" + entry;
+    entryText = (entry - rangeValue)+ "–" + (entry + rangeValue);
     sl  = entry - 7;
     tp1 = entry + 4;
     tp2 = entry + 7;
     tp3 = entry + 10;
     tp4 = entry + 13;
   } else {
-    entryText = entry + "–" + (entry + rangeValue);
+    entryText = (entry - rangeValue) + "–" + (entry + rangeValue);
     sl  = entry + 7;
     tp1 = entry - 4;
     tp2 = entry - 7;
