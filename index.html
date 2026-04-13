@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,144 +7,261 @@
   <title>Trade Idea Generator</title>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Syne:wght@600;700&display=swap');
+
+    :root {
+      --cyan: #00C8FF;
+      --gold: #FFD700;
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #1e1e1e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #0f0f0f;
-      color: #fff;
+      font-family: 'DM Mono', monospace;
+      background: var(--bg);
+      color: #e8e8e8;
+      min-height: 100vh;
+      padding: 24px 16px 40px;
     }
 
     h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 3px;
       text-align: center;
-      color: gold;
+      color: var(--gold);
+      margin-bottom: 24px;
+      text-shadow: 0 0 20px rgba(255,215,0,0.3);
     }
 
-    select, input, button, textarea {
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      display: block;
+      margin: 16px 0 6px;
+    }
+
+    select, input {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: none;
+      padding: 11px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      background: #0f0f0f;
+      color: #fff;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--cyan);
+    }
+
+    select option { background: #1a1a1a; }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     button {
-      background: gold;
-      color: #000;
-      font-weight: bold;
+      padding: 13px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
     }
 
-    button.copy {
-      background: #1f1f1f;
-      color: gold;
-      border: 1px solid gold;
+    button:active { transform: scale(0.97); }
+
+    .btn-generate {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .btn-copy {
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+    }
+
+    .btn-copy:hover { background: rgba(0,200,255,0.08); }
+
+    .output-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #555;
+      text-transform: uppercase;
+      margin: 20px 0 8px;
     }
 
     textarea {
-      height: 340px;
-      font-size: 14px;
+      width: 100%;
+      height: 360px;
+      padding: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.7;
+      background: #0a0a0a;
+      color: #d8d8d8;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
       resize: none;
+      outline: none;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: #1a1a1a;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
     }
   </style>
+
 </head>
 
 <body>
 
-<h2>💡 Gold Trade Idea</h2>
+<h2>💡 TRADE IDEA GENERATOR</h2>
 
+<div class="card">
+
+<label>Direction</label>
 <select id="direction">
-  <option value="buy">BUY</option>
-  <option value="sell">SELL</option>
+<option value="buy">BUY</option>
+<option value="sell">SELL</option>
 </select>
 
-<input type="number" id="entry" placeholder="Entry price (e.g. 5005)">
+<label>Entry Price</label>
+<input type="number" id="entry" placeholder="e.g. 3210">
 
-<!-- OPTIONAL ENTRY RANGE PIPS -->
-<input type="number" id="rangePips" placeholder="Optional Entry Range (pips e.g. 20, 30)">
+<label>Entry Range (pips — optional)</label>
+<input type="number" id="rangePips" placeholder="e.g. 20 or 30">
 
-<!-- OPTIONAL MANUAL STOP LOSS -->
-<input type="number" id="manualSL" placeholder="Optional Stop Loss (leave empty for auto)">
+<label>Stop Loss (optional — leave blank for auto)</label>
+<input type="number" id="manualSL" placeholder="e.g. 3200">
 
-<button onclick="generateIdea()">Generate Trade Idea</button>
+  <div class="btn-row">
+    <button class="btn-generate" onclick="generateIdea()">⚡ GENERATE</button>
+    <button class="btn-copy" onclick="copyTradeIdea()">📋 COPY</button>
+  </div>
 
-<button class="copy" onclick="copyTradeIdea()">📋 Copy Trade Idea</button>
+  <div class="output-label">Output</div>
+  <textarea id="output" readonly placeholder="Your trade idea will appear here..."></textarea>
 
-<textarea id="output" readonly></textarea>
+</div>
+
+<div class="toast" id="toast">Trade idea copied ✅</div>
 
 <script>
 function generateIdea() {
-  const entry = parseFloat(document.getElementById("entry").value);
+  const entry     = parseFloat(document.getElementById("entry").value);
   const direction = document.getElementById("direction").value;
-  const manualSL = parseFloat(document.getElementById("manualSL").value);
+  const manualSL  = parseFloat(document.getElementById("manualSL").value);
   const rangePips = parseFloat(document.getElementById("rangePips").value);
 
   if (!entry) return;
 
-  let entryText, sl, tp1, tp2, tp3, tp4;
-  let dirEmoji = direction === "buy" ? "📈" : "📉";
+  let entryLow, entryHigh, sl, tp1, tp2, tp3, tp4;
 
-  // Determine entry range
-  let rangeValue;
-
-  if (!isNaN(rangePips)) {
-    rangeValue = rangePips / 10;
-  } else {
-    rangeValue = 1; // default range
-  }
+  // Entry range
+  const rangeValue = (!isNaN(rangePips) && rangePips > 0) ? rangePips / 10 : 1;
 
   if (direction === "buy") {
-    entryText = (entry - rangeValue)+ "–" + (entry + rangeValue);
-    sl  = entry - 7;
-    tp1 = entry + 4;
-    tp2 = entry + 7;
-    tp3 = entry + 10;
-    tp4 = entry + 13;
+    entryLow  = (entry - rangeValue).toFixed(0);
+    entryHigh = (entry + rangeValue).toFixed(0);
+    sl  = !isNaN(manualSL) ? manualSL : (entry - 7).toFixed(0);
+    tp1 = (entry + 4).toFixed(0);
+    tp2 = (entry + 7).toFixed(0);
+    tp3 = (entry + 10).toFixed(0);
+    tp4 = (entry + 13).toFixed(0);
   } else {
-    entryText = (entry - rangeValue) + "–" + (entry + rangeValue);
-    sl  = entry + 7;
-    tp1 = entry - 4;
-    tp2 = entry - 7;
-    tp3 = entry - 10;
-    tp4 = entry - 13;
+    entryLow  = (entry - rangeValue).toFixed(0);
+    entryHigh = (entry + rangeValue).toFixed(0);
+    sl  = !isNaN(manualSL) ? manualSL : (entry + 7).toFixed(0);
+    tp1 = (entry - 4).toFixed(0);
+    tp2 = (entry - 7).toFixed(0);
+    tp3 = (entry - 10).toFixed(0);
+    tp4 = (entry - 13).toFixed(0);
   }
 
-  // Overwrite SL if manual SL is provided
-  if (!isNaN(manualSL)) {
-    sl = manualSL;
-  }
+  const dirLabel = direction === "buy" ? "BUYING" : "SELLING";
+  const dirArrow = direction === "buy" ? "📈" : "📉";
 
   document.getElementById("output").value =
 `💡 TRADE IDEA ⤵️
 
-${dirEmoji} ${direction.toUpperCase()} XAUUSD (GOLD)
+${dirArrow} : I AM ${dirLabel} XAUUSD (GOLD)
 
-📍 Entry: ${entryText}
+⭐ Entry point  : ${entryLow}-${entryHigh}
 
-🛑 Stop Loss: ${sl}
+❌ Stop Loss : ${sl}
 
-🎯 TP1: ${tp1}
-🎯 TP2: ${tp2}
-🎯 TP3: ${tp3}
-🎯 TP4: ${tp4}
-🎯 TP5: Open
+✅ TP 1 : ${tp1}
+✅ TP 2 : ${tp2}
+✅ TP 3 : ${tp3}
+✅ TP 4 : ${tp4}
+✅ TP 5 : Open
 
-For educational purposes only. This is not financial advice.
-Trading involves risks, only trade with funds you can afford to lose.
-
-📌 Always follow proper risk management.`;
+For educational purposes only. This is not financial advice. Trading involves risks, only trade with funds you can afford to lose.`;
 }
 
 function copyTradeIdea() {
   const output = document.getElementById("output");
-
   if (!output.value) return;
 
-  output.select();
-  output.setSelectionRange(0, 99999);
-  document.execCommand("copy");
+  navigator.clipboard.writeText(output.value).then(() => {
+    showToast();
+  }).catch(() => {
+    output.select();
+    document.execCommand("copy");
+    showToast();
+  });
+}
 
-  alert("Trade idea copied ✅");
+function showToast() {
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
 }
 </script>
 
