@@ -210,18 +210,18 @@ function generateIdea() {
     entryLow  = (entry - rangeValue).toFixed(0);
     entryHigh = (entry + rangeValue).toFixed(0);
     sl  = !isNaN(manualSL) ? manualSL : (entry - 7).toFixed(0);
-    tp1 = (entry + 4).toFixed(0);
-    tp2 = (entry + 7).toFixed(0);
-    tp3 = (entry + 10).toFixed(0);
-    tp4 = (entry + 13).toFixed(0);
+    tp1 = (entry + 3).toFixed(0);
+    tp2 = (entry + 5).toFixed(0);
+    tp3 = (entry + 7).toFixed(0);
+    tp4 = (entry + 9).toFixed(0);
   } else {
     entryLow  = (entry - rangeValue).toFixed(0);
     entryHigh = (entry + rangeValue).toFixed(0);
     sl  = !isNaN(manualSL) ? manualSL : (entry + 7).toFixed(0);
-    tp1 = (entry - 4).toFixed(0);
-    tp2 = (entry - 7).toFixed(0);
-    tp3 = (entry - 10).toFixed(0);
-    tp4 = (entry - 13).toFixed(0);
+    tp1 = (entry - 3).toFixed(0);
+    tp2 = (entry - 5).toFixed(0);
+    tp3 = (entry - 7).toFixed(0);
+    tp4 = (entry - 9).toFixed(0);
   }
 
   const dirLabel = direction === "buy" ? "BUYING" : "SELLING";
