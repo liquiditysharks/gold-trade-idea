@@ -67,7 +67,7 @@
       border: 1px solid #2a2a2a;
       border-radius: 8px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2S;
     }
 
     select:focus, input:focus {
@@ -92,7 +92,7 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
+      transition: opacity 0.2S, transform 0.1S;
     }
 
     button:active { transform: scale(0.97); }
@@ -149,7 +149,7 @@
       font-size: 13px;
       font-weight: 700;
       opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      transition: transform 0.3S ease, opacity 0.3S ease;
       pointer-events: none;
       z-index: 999;
     }
@@ -214,18 +214,18 @@ function generateIdea() {
     entryLow  = (entry - rangeValue).toFixed(0);
     entryHigh = (entry + rangeValue).toFixed(0);
     sl  = !isNaN(manualSL) ? manualSL : (entry - 7).toFixed(0);
-    tp1 = (entry + 3).toFixed(0);
-    tp2 = (entry + 5).toFixed(0);
-    tp3 = (entry + 7).toFixed(0);
-    tp4 = (entry + 9).toFixed(0);
+    tp1 = (entry + 4).toFixed(0);
+    tp2 = (entry + 6).toFixed(0);
+    tp3 = (entry + 8).toFixed(0);
+    tp4 = (entry + 11).toFixed(0);
   } else {
     entryLow  = (entry - rangeValue).toFixed(0);
     entryHigh = (entry + rangeValue).toFixed(0);
     sl  = !isNaN(manualSL) ? manualSL : (entry + 7).toFixed(0);
-    tp1 = (entry - 3).toFixed(0);
-    tp2 = (entry - 5).toFixed(0);
-    tp3 = (entry - 7).toFixed(0);
-    tp4 = (entry - 9).toFixed(0);
+    tp1 = (entry - 4).toFixed(0);
+    tp2 = (entry - 6).toFixed(0);
+    tp3 = (entry - 8).toFixed(0);
+    tp4 = (entry - 11).toFixed(0);
   }
 
   const dirLabel = direction === "buy" ? "BUYING" : "SELLING";
